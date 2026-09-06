@@ -7,7 +7,7 @@ Domain: apnabeautandsilayicenter.in
 - Beauty + Silai course sections
 - ₹6K combo offer
 - Flyer visual elements used throughout the design
-- WhatsApp enquiry form to 7900440023
+- WhatsApp enquiry form to 9161653032
 - Call link
 - Gallery, testimonials, location section
 - Instagram + Facebook buttons
@@ -29,4 +29,4 @@ Course
 Batch
 Message
 
-and opens WhatsApp to 7900440023 with the message ready to send.
+and opens WhatsApp to 9161653032 with the message ready to send.
