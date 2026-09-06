@@ -18,9 +18,9 @@ Before submitting the site, replace `apnabeautandsilayicenter.in` everywhere wit
 
 1. Upload the complete project, including `index.html`, `styles.css`, `script.js`, `assets/`, `robots.txt` and `sitemap.xml`.
 2. Confirm these URLs open publicly in a browser:
-	- `https://apnabeautandsilayicenter.in/`
-	- `https://apnabeautandsilayicenter.in/robots.txt`
-	- `https://apnabeautandsilayicenter.in/sitemap.xml`
+	- `https://www.apnabeautandsilayicenter.in/`
+	- `https://www.apnabeautandsilayicenter.in/robots.txt`
+	- `https://www.apnabeautandsilayicenter.in/sitemap.xml`
 3. Confirm the HTTPS certificate works and the preferred URL redirects consistently to HTTPS.
 4. Open [Google Search Console](https://search.google.com/search-console) and add the domain property. DNS verification is recommended; URL-prefix verification is also available.
 5. In Search Console, open **Sitemaps**, enter `sitemap.xml`, and click **Submit**.

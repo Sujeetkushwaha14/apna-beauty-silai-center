@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://apnabeautandsilayicenter.in/sitemap.xml
+Sitemap: https://www.apnabeautandsilayicenter.in/sitemap.xml
