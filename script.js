@@ -30,15 +30,15 @@ document.getElementById("enquiryForm").addEventListener("submit", function(e) {
   document.getElementById("formNote").textContent = "WhatsApp खुल रहा है — message check करके Send दबाएँ।";
 });
 
-// Compact stacked leadership cards.
+// Compact stacked leadership cards: Manager left, Director right.
 const leadership = document.getElementById("leadership");
 if (leadership) {
   leadership.innerHTML = `
     <div class="container compact-leadership">
-      <div class="compact-leadership-heading"><span class="eyebrow">OUR TEAM</span><h2>Director & Manager</h2></div>
+      <div class="compact-leadership-heading"><span class="eyebrow">OUR TEAM</span><h2>Manager & Director</h2></div>
       <div class="compact-profile-list">
-        <article class="compact-profile"><button class="compact-photo" type="button" aria-label="Director photo बदलें"><img src="assets/director.png" class="photo-one" alt="Gaurani Singh - Director"><img src="assets/director1.png" class="photo-two" alt="Gaurani Singh - Director alternate"></button><div class="compact-info"><span class="compact-role">DIRECTOR</span><h3>Gaurani Singh</h3><a class="compact-call" href="tel:+917398013197"><span>☎</span> 7398013197</a></div></article>
         <article class="compact-profile"><button class="compact-photo" type="button" aria-label="Manager photo बदलें"><img src="assets/managerimg.png" class="photo-one" alt="Arun Singh - Manager"><img src="assets/manager.png" class="photo-two" alt="Arun Singh - Manager alternate"></button><div class="compact-info"><span class="compact-role">MANAGER</span><h3>Arun Singh</h3><a class="compact-call" href="tel:+919161653032"><span>☎</span> 9161653032</a></div></article>
+        <article class="compact-profile"><button class="compact-photo" type="button" aria-label="Director photo बदलें"><img src="assets/director.png" class="photo-one" alt="Gaurani Singh - Director"><img src="assets/director1.png" class="photo-two" alt="Gaurani Singh - Director alternate"></button><div class="compact-info"><span class="compact-role">DIRECTOR</span><h3>Gaurani Singh</h3><a class="compact-call" href="tel:+917398013197"><span>☎</span> 7398013197</a></div></article>
       </div>
     </div>`;
 }
