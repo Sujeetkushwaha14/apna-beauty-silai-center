@@ -30,19 +30,22 @@ document.getElementById("enquiryForm").addEventListener("submit", function(e) {
   const message = document.getElementById("message").value.trim() || "Course ki details chahiye.";
 
   const text =
-`*New Admission Enquiry*
-
-👤 Name: ${name}
-📱 Mobile: ${phone}
-📚 Course: ${course}
-🕐 Batch: ${batch}
-💬 Message: ${message}`;
+`*New Admission Enquiry*\n\n👤 Name: ${name}\n📱 Mobile: ${phone}\n📚 Course: ${course}\n🕐 Batch: ${batch}\n💬 Message: ${message}`;
 
   const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
   window.open(url, "_blank", "noopener");
 
   document.getElementById("formNote").textContent =
     "WhatsApp खुल रहा है — message check करके Send दबाएँ।";
+});
+
+// Leadership profile photo swap: click the profile image to reveal its alternate photo.
+document.querySelectorAll("[data-profile-switch] .profile-photo").forEach(button => {
+  button.addEventListener("click", () => {
+    const swapped = button.classList.toggle("is-swapped");
+    button.setAttribute("aria-pressed", swapped ? "true" : "false");
+    button.setAttribute("aria-label", swapped ? "पहली profile photo दिखाएँ" : "दूसरी profile photo दिखाएँ");
+  });
 });
 
 // Smooth active-section indicator.
