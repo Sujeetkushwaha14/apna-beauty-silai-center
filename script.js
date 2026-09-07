@@ -48,30 +48,39 @@ leadershipStyle.textContent = `.leadership-section{background:#fff7e7;padding:52
 document.head.appendChild(leadershipStyle);
 document.querySelectorAll(".compact-photo").forEach(button => button.addEventListener("click", () => button.classList.toggle("is-swapped")));
 
-// Add the six uploaded photos directly into the existing gallery.
-function addUploadedGalleryImages() {
-  const galleryGrid = document.querySelector("#gallery .gallery-grid");
-  if (!galleryGrid || galleryGrid.dataset.extraImagesAdded === "true") return;
+// Trainee gallery: six uploaded photos shown as individual boxed cards inside the existing Gallery section.
+function buildTraineeGallery() {
+  const gallery = document.getElementById("gallery");
+  if (!gallery || gallery.dataset.traineeGalleryBuilt === "true") return;
 
-  ["img1.png","img2.png","img3.png","img4.png","img5.png","img6.png"].forEach((file, index) => {
-    const item = document.createElement("div");
-    item.className = "gallery-item extra-gallery-item";
-    item.innerHTML = `<img src="assets/${file}" alt="Apna Beauty & Silai Center gallery photo ${index + 1}"><span>Gallery Photo ${index + 1}</span>`;
-    const image = item.querySelector("img");
-    image.style.display = "block";
-    image.style.width = "100%";
-    image.style.height = "100%";
-    image.style.objectFit = "cover";
-    galleryGrid.appendChild(item);
+  const photos = ["img1.png","img2.png","img3.png","img4.png","img5.png","img6.png"];
+  let grid = gallery.querySelector(".gallery-grid");
+
+  if (!grid) {
+    grid = document.createElement("div");
+    grid.className = "gallery-grid trainee-gallery-grid";
+    const container = gallery.querySelector(".container") || gallery;
+    container.appendChild(grid);
+  }
+
+  photos.forEach((file, index) => {
+    const card = document.createElement("article");
+    card.className = "gallery-item trainee-gallery-card";
+    card.innerHTML = `<div class="trainee-photo-box"><img src="assets/${file}" alt="Apna Beauty & Silai Center में सिलाई सीख रही trainee ${index + 1}" loading="lazy"></div><div class="trainee-gallery-info"><span>GALLERY</span><h3>Silai Training</h3><p>सिलाई सीख रही trainee</p></div>`;
+    grid.appendChild(card);
   });
 
-  galleryGrid.dataset.extraImagesAdded = "true";
+  gallery.dataset.traineeGalleryBuilt = "true";
 }
 
+const galleryStyle = document.createElement("style");
+galleryStyle.textContent = `.trainee-gallery-grid{margin-top:24px}.trainee-gallery-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 28px #5b173014;transition:transform .2s ease,box-shadow .2s ease}.trainee-gallery-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px #5b173020}.trainee-photo-box{height:230px;background:#f8efdf;overflow:hidden}.trainee-photo-box img{width:100%;height:100%;object-fit:cover;display:block}.trainee-gallery-info{padding:12px 13px 15px}.trainee-gallery-info span{font-size:9px;letter-spacing:2px;font-weight:900;color:#a02150}.trainee-gallery-info h3{margin:3px 0 1px;font:800 20px/1.1 "Playfair Display";color:#4e122e}.trainee-gallery-info p{margin:0;color:#6e5962;font-size:11px;font-weight:700}@media(max-width:900px){.trainee-gallery-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.trainee-gallery-grid{grid-template-columns:repeat(2,1fr);gap:12px}.trainee-photo-box{height:190px}.trainee-gallery-info h3{font-size:18px}}@media(max-width:420px){.trainee-gallery-grid{grid-template-columns:1fr}.trainee-photo-box{height:240px}}`;
+document.head.appendChild(galleryStyle);
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", addUploadedGalleryImages);
+  document.addEventListener("DOMContentLoaded", buildTraineeGallery);
 } else {
-  addUploadedGalleryImages();
+  buildTraineeGallery();
 }
 
 const sections = [...document.querySelectorAll("main section[id]")];
