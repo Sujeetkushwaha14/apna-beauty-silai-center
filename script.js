@@ -48,16 +48,30 @@ leadershipStyle.textContent = `.leadership-section{background:#fff7e7;padding:52
 document.head.appendChild(leadershipStyle);
 document.querySelectorAll(".compact-photo").forEach(button => button.addEventListener("click", () => button.classList.toggle("is-swapped")));
 
-// Add img1.png through img6.png to the existing gallery without removing any existing items.
-const galleryGrid = document.querySelector("#gallery .gallery-grid");
-if (galleryGrid && !galleryGrid.dataset.extraImagesAdded) {
+// Add the six uploaded photos directly into the existing gallery.
+function addUploadedGalleryImages() {
+  const galleryGrid = document.querySelector("#gallery .gallery-grid");
+  if (!galleryGrid || galleryGrid.dataset.extraImagesAdded === "true") return;
+
   ["img1.png","img2.png","img3.png","img4.png","img5.png","img6.png"].forEach((file, index) => {
     const item = document.createElement("div");
     item.className = "gallery-item extra-gallery-item";
-    item.innerHTML = `<img src="assets/${file}" alt="Apna Beauty & Silai Center gallery photo ${index + 1}" loading="lazy"><span>Gallery Photo ${index + 1}</span>`;
+    item.innerHTML = `<img src="assets/${file}" alt="Apna Beauty & Silai Center gallery photo ${index + 1}"><span>Gallery Photo ${index + 1}</span>`;
+    const image = item.querySelector("img");
+    image.style.display = "block";
+    image.style.width = "100%";
+    image.style.height = "100%";
+    image.style.objectFit = "cover";
     galleryGrid.appendChild(item);
   });
+
   galleryGrid.dataset.extraImagesAdded = "true";
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", addUploadedGalleryImages);
+} else {
+  addUploadedGalleryImages();
 }
 
 const sections = [...document.querySelectorAll("main section[id]")];
