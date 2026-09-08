@@ -30,13 +30,12 @@ document.getElementById("enquiryForm").addEventListener("submit", function(e) {
   document.getElementById("formNote").textContent = "WhatsApp खुल रहा है — message check करके Send दबाएँ।";
 });
 
-// Use the uploaded full logo. The logo artwork already contains the brand name,
-// so the separate text brand is hidden to avoid showing the name twice.
+// Header branding: use the uploaded circular logo and the uploaded name-style image separately.
 document.querySelectorAll(".brand").forEach(brand => {
   const round = brand.querySelector(".brand-round");
   const text = brand.querySelector("span:not(.uploaded-logo)");
   if (round) round.outerHTML = '<img class="uploaded-logo" src="assets/logo-name.png" alt="Apna Beauty & Silai Center logo">';
-  if (text) text.style.display = "none";
+  if (text) text.outerHTML = '<img class="brand-name-image" src="assets/namestyle.png" alt="Apna Beauty & Silai Center">';
 });
 
 // Compact leadership cards. Director intentionally shows only the name: no director photo or photo frame.
@@ -57,12 +56,10 @@ leadershipStyle.textContent = `.leadership-section{background:#fff7e7;padding:52
 document.head.appendChild(leadershipStyle);
 document.querySelectorAll(".compact-photo").forEach(button => button.addEventListener("click", () => button.classList.toggle("is-swapped")));
 
-// Add the requested Hindi message and the uploaded beauty image above the existing gallery.
 function buildBeautyMessage() {
   if (document.getElementById("beauty-message")) return;
   const gallery = document.getElementById("gallery");
   if (!gallery) return;
-
   const section = document.createElement("section");
   section.id = "beauty-message";
   section.className = "beauty-message-section";
@@ -82,25 +79,15 @@ function buildBeautyMessage() {
 }
 
 const messageStyle = document.createElement("style");
-messageStyle.textContent = `.uploaded-logo{width:48px;height:48px;object-fit:contain;display:block}.beauty-message-section{padding:64px 0;background:linear-gradient(135deg,#fff8eb,#fff 55%,#f9edf2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.beauty-message-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:42px}.beauty-message-copy h2{font:800 38px/1.18 "Playfair Display","Noto Sans Devanagari",sans-serif;color:#4e122e;margin:8px 0 20px}.beauty-message-copy p{margin:10px 0;color:#5d4b53;font-size:17px;line-height:1.75;font-weight:600}.beauty-message-image{border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 18px 45px #5b173020;border:1px solid var(--line)}.beauty-message-image img{width:100%;height:390px;display:block;object-fit:cover}.gallery-section .section-heading{margin-bottom:20px}@media(max-width:760px){.beauty-message-section{padding:48px 0}.beauty-message-grid{grid-template-columns:1fr;gap:24px}.beauty-message-copy h2{font-size:30px}.beauty-message-copy p{font-size:15px}.beauty-message-image img{height:300px}}`;
+messageStyle.textContent = `.uploaded-logo{width:48px;height:48px;object-fit:contain;display:block}.brand-name-image{width:220px;height:58px;object-fit:contain;display:block}.beauty-message-section{padding:64px 0;background:linear-gradient(135deg,#fff8eb,#fff 55%,#f9edf2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.beauty-message-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:42px}.beauty-message-copy h2{font:800 38px/1.18 "Playfair Display","Noto Sans Devanagari",sans-serif;color:#4e122e;margin:8px 0 20px}.beauty-message-copy p{margin:10px 0;color:#5d4b53;font-size:17px;line-height:1.75;font-weight:600}.beauty-message-image{border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 18px 45px #5b173020;border:1px solid var(--line)}.beauty-message-image img{width:100%;height:390px;display:block;object-fit:cover}.gallery-section .section-heading{margin-bottom:20px}@media(max-width:760px){.brand-name-image{width:175px;height:48px}.beauty-message-section{padding:48px 0}.beauty-message-grid{grid-template-columns:1fr;gap:24px}.beauty-message-copy h2{font-size:30px}.beauty-message-copy p{font-size:15px}.beauty-message-image img{height:300px}}`;
 document.head.appendChild(messageStyle);
 
-// Show all five newly uploaded WhatsApp photos in the existing Gallery section.
 function buildUploadedGallery() {
   const gallery = document.getElementById("gallery");
   if (!gallery || gallery.dataset.uploadedGalleryBuilt === "true") return;
-
-  const photos = [
-    "whatsapp-image.png",
-    "whatsapp-image-20.png",
-    "whatsapp-ima.png",
-    "whatsapp-imag.png",
-    "whatsapp-image-2.png"
-  ];
+  const photos = ["whatsapp-image.png","whatsapp-image-20.png","whatsapp-ima.png","whatsapp-imag.png","whatsapp-image-2.png"];
   const grid = gallery.querySelector(".gallery-grid");
   if (!grid) return;
-
-  // Keep the original special-offer flyer, but replace the old generated gallery cards with uploaded photos.
   grid.innerHTML = "";
   photos.forEach((file, index) => {
     const card = document.createElement("article");
@@ -108,7 +95,6 @@ function buildUploadedGallery() {
     card.innerHTML = `<div class="uploaded-gallery-photo"><img src="assets/${file}" alt="Apna Beauty & Silai Center training photo ${index + 1}" loading="lazy"></div><span>Training & Work</span>`;
     grid.appendChild(card);
   });
-
   const flyerCard = document.createElement("div");
   flyerCard.className = "gallery-item full";
   flyerCard.innerHTML = '<img src="assets/flyer.svg" alt="₹12,000 से ₹7,000 Beauty Parlour और Silai Special Offer"><span>Special Offer</span>';
