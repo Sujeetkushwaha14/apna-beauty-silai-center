@@ -1,0 +1,1 @@
+Gallery placeholder note: add Image.png, Image1.png, Image2.png, Image3.png, Image4.png and Image5.png to assets on the main branch, then the gallery JS will automatically render them alongside the existing gallery items.
