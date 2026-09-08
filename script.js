@@ -85,11 +85,18 @@ const messageStyle = document.createElement("style");
 messageStyle.textContent = `.beauty-message-section{padding:64px 0;background:linear-gradient(135deg,#fff8eb,#fff 55%,#f9edf2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.beauty-message-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:42px}.beauty-message-copy h2{font:800 38px/1.18 "Playfair Display","Noto Sans Devanagari",sans-serif;color:#4e122e;margin:8px 0 20px}.beauty-message-copy p{margin:10px 0;color:#5d4b53;font-size:17px;line-height:1.75;font-weight:600}.beauty-message-image{border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 18px 45px #5b173020;border:1px solid var(--line)}.beauty-message-image img{width:100%;height:390px;display:block;object-fit:cover}.gallery-section .section-heading{margin-bottom:20px}@media(max-width:760px){.beauty-message-section{padding:48px 0}.beauty-message-grid{grid-template-columns:1fr;gap:24px}.beauty-message-copy h2{font-size:30px}.beauty-message-copy p{font-size:15px}.beauty-message-image img{height:300px}}`;
 document.head.appendChild(messageStyle);
 
-// Add the six newly uploaded gallery photos without removing the existing gallery content.
+// Add the previously used WhatsApp photos, the six current Image photos, and restore the red Special Offer card.
 function buildUploadedGallery() {
   const gallery = document.getElementById("gallery");
   if (!gallery || gallery.dataset.uploadedGalleryBuilt === "true") return;
 
+  const oldPhotos = [
+    "whatsapp-image.png",
+    "whatsapp-image-20.png",
+    "whatsapp-ima.png",
+    "whatsapp-imag.png",
+    "whatsapp-image-2.png"
+  ];
   const files = [
     "Image.png",
     "Image1.png",
@@ -102,18 +109,24 @@ function buildUploadedGallery() {
   if (!grid) return;
 
   const existing = grid.innerHTML.trim();
+  const oldCards = oldPhotos.map((file, index) => `
+    <a class="gallery-item uploaded-gallery-card restored-photo-card" href="assets/${file}" target="_blank" rel="noopener">
+      <div class="uploaded-gallery-photo"><img src="assets/${file}" alt="Apna Beauty & Silai Center training photo ${index + 1}" loading="lazy"></div>
+      <span>Training & Work</span>
+    </a>`).join("");
   const cards = files.map((file, index) => `
     <a class="gallery-item uploaded-gallery-card" href="assets/${file}" target="_blank" rel="noopener">
       <div class="uploaded-gallery-photo"><img src="assets/${file}" alt="Apna Beauty & Silai Center gallery photo ${index + 1}" loading="lazy"></div>
       <span>Training & Work</span>
     </a>`).join("");
+  const flyer = `<div class="gallery-item full restored-special-offer"><img src="assets/flyer.svg" alt="₹12,000 से ₹7,000 Beauty Parlour और Silai Special Offer"><span>Special Offer</span></div>`;
 
-  grid.innerHTML = existing + cards;
+  grid.innerHTML = existing + oldCards + cards + flyer;
   gallery.dataset.uploadedGalleryBuilt = "true";
 }
 
 const galleryStyle = document.createElement("style");
-galleryStyle.textContent = `.uploaded-gallery-card{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 28px #5b173014;color:inherit}.uploaded-gallery-photo{height:240px;background:#f8efdf;overflow:hidden}.uploaded-gallery-photo img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .3s ease}.uploaded-gallery-card:hover .uploaded-gallery-photo img{transform:scale(1.04)}.uploaded-gallery-card>span{display:block;padding:11px 13px 14px;color:#4e122e;font-weight:800;font-size:13px}.gallery-grid{align-items:stretch}@media(max-width:650px){.uploaded-gallery-photo{height:210px}}@media(max-width:420px){.uploaded-gallery-photo{height:260px}}`;
+galleryStyle.textContent = `.uploaded-gallery-card{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 28px #5b173014;color:inherit}.uploaded-gallery-photo{height:240px;background:#f8efdf;overflow:hidden}.uploaded-gallery-photo img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .3s ease}.uploaded-gallery-card:hover .uploaded-gallery-photo img{transform:scale(1.04)}.uploaded-gallery-card>span{display:block;padding:11px 13px 14px;color:#4e122e;font-weight:800;font-size:13px}.gallery-grid{align-items:stretch}.restored-special-offer img{width:100%;height:auto;display:block}.restored-special-offer>span{display:block;padding:11px 13px 14px;color:#4e122e;font-weight:800;font-size:13px}@media(max-width:650px){.uploaded-gallery-photo{height:210px}}@media(max-width:420px){.uploaded-gallery-photo{height:260px}}`;
 document.head.appendChild(galleryStyle);
 
 if (document.readyState === "loading") {
