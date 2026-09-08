@@ -30,10 +30,13 @@ document.getElementById("enquiryForm").addEventListener("submit", function(e) {
   document.getElementById("formNote").textContent = "WhatsApp खुल रहा है — message check करके Send दबाएँ।";
 });
 
-// Use the uploaded logo in the existing header/footer brand without changing its image.
+// Use the uploaded full logo. The logo artwork already contains the brand name,
+// so the separate text brand is hidden to avoid showing the name twice.
 document.querySelectorAll(".brand").forEach(brand => {
   const round = brand.querySelector(".brand-round");
-  if (round) round.outerHTML = '<img class="uploaded-logo" src="assets/logo.png" alt="Apna Beauty & Silai Center logo">';
+  const text = brand.querySelector("span:not(.uploaded-logo)");
+  if (round) round.outerHTML = '<img class="uploaded-logo" src="assets/logo-name.png" alt="Apna Beauty & Silai Center logo">';
+  if (text) text.style.display = "none";
 });
 
 // Compact leadership cards. Director intentionally shows only the name: no director photo or photo frame.
