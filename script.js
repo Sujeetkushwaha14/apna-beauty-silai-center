@@ -16,6 +16,17 @@ menu?.addEventListener("click", () => {
 });
 document.querySelectorAll(".nav nav a").forEach(a => a.addEventListener("click", () => nav.classList.remove("open")));
 
+// Student Portal link — kept after Gallery in the main navbar.
+if (nav && !nav.querySelector('a[href="student-portal.html"]')) {
+  const galleryLink = [...nav.querySelectorAll("a")].find(a => a.getAttribute("href") === "#gallery");
+  const studentLink = document.createElement("a");
+  studentLink.href = "student-portal.html";
+  studentLink.textContent = "Student Login";
+  studentLink.setAttribute("aria-label", "Student Login");
+  if (galleryLink) galleryLink.insertAdjacentElement("afterend", studentLink);
+  else nav.appendChild(studentLink);
+}
+
 document.getElementById("year").textContent = new Date().getFullYear();
 
 document.getElementById("enquiryForm").addEventListener("submit", function(e) {
