@@ -57,7 +57,7 @@ leadershipStyle.textContent = `.leadership-section{background:#fff7e7;padding:52
 document.head.appendChild(leadershipStyle);
 document.querySelectorAll(".compact-photo").forEach(button => button.addEventListener("click", () => button.classList.toggle("is-swapped")));
 
-// Add the requested Hindi message and the uploaded beauty image above the existing gallery.
+// Keep the existing beauty message enhancement above the Gallery when present.
 function buildBeautyMessage() {
   if (document.getElementById("beauty-message")) return;
   const gallery = document.getElementById("gallery");
@@ -85,38 +85,35 @@ const messageStyle = document.createElement("style");
 messageStyle.textContent = `.beauty-message-section{padding:64px 0;background:linear-gradient(135deg,#fff8eb,#fff 55%,#f9edf2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.beauty-message-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:42px}.beauty-message-copy h2{font:800 38px/1.18 "Playfair Display","Noto Sans Devanagari",sans-serif;color:#4e122e;margin:8px 0 20px}.beauty-message-copy p{margin:10px 0;color:#5d4b53;font-size:17px;line-height:1.75;font-weight:600}.beauty-message-image{border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 18px 45px #5b173020;border:1px solid var(--line)}.beauty-message-image img{width:100%;height:390px;display:block;object-fit:cover}.gallery-section .section-heading{margin-bottom:20px}@media(max-width:760px){.beauty-message-section{padding:48px 0}.beauty-message-grid{grid-template-columns:1fr;gap:24px}.beauty-message-copy h2{font-size:30px}.beauty-message-copy p{font-size:15px}.beauty-message-image img{height:300px}}`;
 document.head.appendChild(messageStyle);
 
-// Show all five newly uploaded WhatsApp photos in the existing Gallery section.
+// Add the six newly uploaded gallery photos without removing the existing gallery content.
 function buildUploadedGallery() {
   const gallery = document.getElementById("gallery");
   if (!gallery || gallery.dataset.uploadedGalleryBuilt === "true") return;
 
-  const photos = [
-    "whatsapp-image.png",
-    "whatsapp-image-20.png",
-    "whatsapp-ima.png",
-    "whatsapp-imag.png",
-    "whatsapp-image-2.png"
+  const files = [
+    "Image.png",
+    "Image1.png",
+    "Image2.png",
+    "Image3.png",
+    "Image4.png",
+    "Image5.png"
   ];
   const grid = gallery.querySelector(".gallery-grid");
   if (!grid) return;
 
-  grid.innerHTML = "";
-  photos.forEach((file, index) => {
-    const card = document.createElement("article");
-    card.className = "gallery-item uploaded-gallery-card";
-    card.innerHTML = `<div class="uploaded-gallery-photo"><img src="assets/${file}" alt="Apna Beauty & Silai Center training photo ${index + 1}" loading="lazy"></div><span>Training & Work</span>`;
-    grid.appendChild(card);
-  });
+  const existing = grid.innerHTML.trim();
+  const cards = files.map((file, index) => `
+    <a class="gallery-item uploaded-gallery-card" href="assets/${file}" target="_blank" rel="noopener">
+      <div class="uploaded-gallery-photo"><img src="assets/${file}" alt="Apna Beauty & Silai Center gallery photo ${index + 1}" loading="lazy"></div>
+      <span>Training & Work</span>
+    </a>`).join("");
 
-  const flyerCard = document.createElement("div");
-  flyerCard.className = "gallery-item full";
-  flyerCard.innerHTML = '<img src="assets/flyer.svg" alt="₹12,000 से ₹7,000 Beauty Parlour और Silai Special Offer"><span>Special Offer</span>';
-  grid.appendChild(flyerCard);
+  grid.innerHTML = existing + cards;
   gallery.dataset.uploadedGalleryBuilt = "true";
 }
 
 const galleryStyle = document.createElement("style");
-galleryStyle.textContent = `.uploaded-gallery-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 28px #5b173014}.uploaded-gallery-photo{height:240px;background:#f8efdf;overflow:hidden}.uploaded-gallery-photo img{width:100%;height:100%;display:block;object-fit:cover}.uploaded-gallery-card>span{display:block;padding:11px 13px 14px;color:#4e122e;font-weight:800;font-size:13px}.gallery-grid .uploaded-gallery-card.full{grid-column:1/-1}@media(max-width:650px){.uploaded-gallery-photo{height:210px}}@media(max-width:420px){.uploaded-gallery-photo{height:260px}}`;
+galleryStyle.textContent = `.uploaded-gallery-card{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 28px #5b173014;color:inherit}.uploaded-gallery-photo{height:240px;background:#f8efdf;overflow:hidden}.uploaded-gallery-photo img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .3s ease}.uploaded-gallery-card:hover .uploaded-gallery-photo img{transform:scale(1.04)}.uploaded-gallery-card>span{display:block;padding:11px 13px 14px;color:#4e122e;font-weight:800;font-size:13px}.gallery-grid{align-items:stretch}@media(max-width:650px){.uploaded-gallery-photo{height:210px}}@media(max-width:420px){.uploaded-gallery-photo{height:260px}}`;
 document.head.appendChild(galleryStyle);
 
 if (document.readyState === "loading") {
