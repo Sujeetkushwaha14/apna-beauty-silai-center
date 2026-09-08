@@ -1,6 +1,6 @@
 /** Apna Beauty & Silai Center - free student portal backend
  * Deploy this file as a Google Apps Script Web App.
- * Keep ADMIN_PASSWORD and GITHUB_TOKEN in Script Properties, never in this file.
+ * Keep admin password hash and GitHub token in Script Properties, never in this file.
  * Sheet must remain private.
  */
 
@@ -113,32 +113,82 @@ function updateFee_(b) {
 
 function uploadCertificate_(b) {
   if (!session_(b.token, 'admin')) return { ok:false, error:'Admin session expired' };
-  const id = String(b.studentId || '');
+
+  const id = String(b.studentId || '').trim();
   const name = String(b.fileName || 'certificate.pdf').replace(/[^a-zA-Z0-9._-]/g,'_');
-  const data = String(b.base64 || '');
+  const data = String(b.base64 || '').trim();
+
   if (!id || !data) return { ok:false, error:'Certificate file missing' };
   if (data.length > 12000000) return { ok:false, error:'Certificate is too large' };
 
+  const student = findStudentById_(id);
+  if (!student) return { ok:false, error:'Student not found' };
+
   const props = PropertiesService.getScriptProperties();
-  const ghToken = props.getProperty('GITHUB_TOKEN');
+  const ghToken = String(props.getProperty('GITHUB_TOKEN') || '').trim();
   if (!ghToken) return { ok:false, error:'GitHub token is not configured in Apps Script' };
 
+  // Keep the slash between folders and filename; do not encode the entire path as one segment.
   const path = CONFIG.CERT_DIR + '/' + id + '-' + Date.now() + '-' + name;
-  const url = 'https://api.github.com/repos/' + CONFIG.GITHUB_OWNER + '/' + CONFIG.GITHUB_REPO + '/contents/' + encodeURIComponent(path);
-  const payload = { message:'Add student certificate ' + id, content:data, branch:CONFIG.GITHUB_BRANCH };
-  const res = UrlFetchApp.fetch(url, {
-    method:'post', contentType:'application/json', muteHttpExceptions:true,
-    headers:{ Authorization:'Bearer ' + ghToken, Accept:'application/vnd.github+json', 'X-GitHub-Api-Version':'2022-11-28' },
-    payload:JSON.stringify(payload)
-  });
+  const encodedPath = path.split('/').map(encodeURIComponent).join('/');
+  const url = 'https://api.github.com/repos/' + CONFIG.GITHUB_OWNER + '/' + CONFIG.GITHUB_REPO + '/contents/' + encodedPath;
+
+  const payload = {
+    message: 'Add student certificate ' + id,
+    content: data,
+    branch: CONFIG.GITHUB_BRANCH
+  };
+
+  let res;
+  try {
+    res = UrlFetchApp.fetch(url, {
+      method: 'post',
+      contentType: 'application/json',
+      muteHttpExceptions: true,
+      headers: {
+        Authorization: 'Bearer ' + ghToken,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'User-Agent': 'Apna-Beauty-Silai-Center'
+      },
+      payload: JSON.stringify(payload)
+    });
+  } catch (err) {
+    return { ok:false, error:'GitHub request error: ' + safeError_(err) };
+  }
+
   const code = res.getResponseCode();
-  if (code < 200 || code >= 300) return { ok:false, error:'GitHub upload failed (' + code + ')' };
+  const text = res.getContentText() || '';
+
+  if (code < 200 || code >= 300) {
+    let detail = '';
+    let documentation = '';
+    try {
+      const parsed = JSON.parse(text);
+      detail = String(parsed.message || '');
+      documentation = String(parsed.documentation_url || '');
+    } catch (_) {
+      detail = text.slice(0, 180);
+    }
+
+    const extra = documentation ? ' | Docs: ' + documentation : '';
+    return { ok:false, error:'GitHub upload failed (' + code + '): ' + detail + extra };
+  }
+
+  let result = {};
+  try { result = JSON.parse(text); } catch (_) {}
 
   const sh = sheet_();
   const row = findRowById_(sh,id);
   if (!row) return { ok:false, error:'Student not found after upload' };
+
   sh.getRange(row,6).setValue(path);
-  return { ok:true, path:path, url:'https://' + CONFIG.GITHUB_OWNER + '.github.io/' + CONFIG.GITHUB_REPO + '/' + path };
+  return {
+    ok:true,
+    path:path,
+    url:'https://' + CONFIG.GITHUB_OWNER + '.github.io/' + CONFIG.GITHUB_REPO + '/' + path,
+    commitUrl:String(result.html_url || '')
+  };
 }
 
 function sheet_() {
