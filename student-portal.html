@@ -20,7 +20,7 @@ body{background:linear-gradient(180deg,#fffaf0 0%,#fff4df 100%);color:var(--ink)
 <body>
 <header class="header"><div class="container nav"><a class="brand" href="index.html"><span class="brand-round">A</span><span><b>Apna</b><small>BEAUTY & SILAI CENTER</small></span></a><a class="nav-admission" href="index.html">← Home</a></div></header>
 <main class="portal">
-<div class="hero"><span class="eyebrow">STUDENT PORTAL</span><h1>Apna Student Dashboard</h1><p>Login, fee details aur certificate ek hi jagah.</p></div>
+<div class="hero"><span class="eyebrow">STUDENT PORTAL</span><h1>Apna Student Dashboard</h1></div>
 <section id="authPanel" class="panel">
 <div class="tabs"><button id="loginTab" class="active">Login</button><button id="registerTab">Registration</button><button id="adminTab">Admin</button></div>
 <form id="loginForm"><div class="field"><label>Mobile Number</label><input id="loginMobile" inputmode="numeric" maxlength="10" required></div><div class="field"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password" required></div><button class="btn primary">Login</button></form>
@@ -30,7 +30,7 @@ body{background:linear-gradient(180deg,#fffaf0 0%,#fff4df 100%);color:var(--ink)
 </section>
 <section id="studentPanel" class="panel hidden"><div class="top"><div><span class="eyebrow">MY PROFILE</span><div class="small">Student account</div></div><button id="studentLogout" class="logout">Logout</button></div>
 <div class="profile-head"><img id="studentPhoto" class="avatar" alt="Profile photo"><div><h2 id="studentName"></h2><p id="studentMobile"></p><span id="feeBadge" class="fee-status"></span></div></div>
-<div class="photo-box"><b>Profile Photo</b><div class="small">Apni photo upload ya change karo.</div><div class="admin-actions"><input id="profilePhotoInput" class="file-input" type="file" accept="image/jpeg,image/png,image/webp"><button id="photoUploadBtn" class="btn primary">Photo Save</button></div><div class="small">Photo private Google Drive storage mein rakhi jaati hai.</div></div>
+<div class="photo-box"><b>Profile Photo</b><div class="small">Apni photo upload ya change karo.</div><div class="admin-actions"><input id="profilePhotoInput" class="file-input" type="file" accept="image/jpeg,image/png,image/webp"><button id="photoUploadBtn" class="btn primary">Photo Save</button></div></div>
 <h3>Fee Summary</h3><div class="fee-grid"><div class="fee-card"><span>Total Fee</span><strong id="totalFee">₹0</strong></div><div class="fee-card paid"><span>Fee Jama</span><strong id="feePaid">₹0</strong></div><div class="fee-card due"><span>Fee Baki</span><strong id="feeDue">₹0</strong></div></div>
 <div class="cert-box"><b>📜 Certificate</b><div id="certificateBox" class="small" style="margin-top:6px"></div></div></section>
 <section id="adminPanel" class="panel hidden"><div class="top"><div><span class="eyebrow">ADMIN</span><h2>Student Management</h2><div class="count">Total fee aur jama amount admin manually set karega.</div></div><button id="adminLogout" class="logout">Logout</button></div><div id="adminList"></div></section>
